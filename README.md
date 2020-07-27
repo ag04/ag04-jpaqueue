@@ -18,16 +18,18 @@ For detailed instruction on how to use this libarary please refer to the followi
 ### Release
 Make sure that file gradle.properties in folder ${USER_HOME}/.gradle/ contains the following two variables defined
 
-* ag04_nexus_username
-* ag04_nexus_password
+* github_username
+* github_password : personal github token to be used to install/update packages
 
 1) Commit everything
-2) ./gradlew release
+2) `./gradlew release`
 
 And simply follow the instructions on the console
 
 ## Changelog
+### v. 1.0.1 - Configured build to publish to GitHub packages
 ### v. 1.0.0 - Base implementation
 
 ## Credits
-* Vjeran Marčinko ()
+* Vjeran Marčinko (Author)
+* Domagoj Madunić (Maintener)

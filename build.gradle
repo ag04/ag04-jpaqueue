@@ -1,7 +1,7 @@
 plugins {
 	id 'maven-publish'
-    id 'net.researchgate.release' version '2.8.0'
-    id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+    id 'net.researchgate.release' version '2.8.1'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
 }
 
@@ -25,16 +25,17 @@ repositories {
 publishing {
     publications {
         maven(MavenPublication) {
-            from components.java
+            from(components.java)
         }
     }
     repositories {
-        if (project.hasProperty('ag04_nexus_username') && project.hasProperty('ag04_nexus_password')) {
+        if (project.hasProperty('github_username') && project.hasProperty('github_password')) {
             maven {
-                url 'https://nexus.ag04.io/repository/releases'
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/ag04/ag04-jpaqueue")
                 credentials {
-                    username ag04_nexus_username
-                    password ag04_nexus_password
+                    username github_username
+                    password github_password
                 }
             }
         }
