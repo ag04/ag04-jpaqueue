@@ -12,7 +12,7 @@ For detailed instruction on how to use this libarary please refer to the followi
 * [Java JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 
 ### Setup (First time)
-1. Clone the repository: `git clone git@bitbucket.org:ag04/ag04-jpaqueue.git`
+1. Clone the repository: `git clone git@github.com:ag04/ag04-jpaqueue.git`
 4. Build project with: ` ./gradlew clean build `
 
 ### Release

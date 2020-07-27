@@ -8,7 +8,6 @@ plugins {
 apply plugin: 'idea'
 
 group = 'com.ag04.jpaqueue'
-version = '1.0.0'
 sourceCompatibility = '1.8'
 
 gradle.projectsEvaluated {
