@@ -16,7 +16,7 @@ For detailed instruction on how to use this libarary please refer to the followi
 4. Build project with: ` ./gradlew clean build `
 
 ### Release
-Make sure that file gradle.properties in folder ${USER_HOME}/.gradle/ contains the following two variables defined
+Make sure that file gradle.properties in the folder ${USER_HOME}/.gradle/ contains the following two variables defined:
 
 * github_username
 * github_password : personal github token to be used to install/update packages
