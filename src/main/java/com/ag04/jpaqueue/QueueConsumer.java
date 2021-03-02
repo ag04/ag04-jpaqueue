@@ -83,8 +83,11 @@ public class QueueConsumer {
 
             if (!itemIds.isEmpty()) {
                 logger.info("Fetched {} pending queued items", itemIds.size());
+                int currentCount = 0;
+                int totalCount = itemIds.size();
                 for (Object itemId : itemIds) {
-                    processItemAndHandleErrorIfRaised(itemId);
+                    currentCount++;
+                    processItemAndHandleErrorIfRaised(itemId, currentCount, totalCount);
                 }
             }
         } catch (Throwable th) {
@@ -92,9 +95,9 @@ public class QueueConsumer {
         }
     }
 
-    private void processItemAndHandleErrorIfRaised(Object itemId) {
+    private void processItemAndHandleErrorIfRaised(Object itemId, int currentCount, int totalCount) {
         try {
-            executeUnderTransaction(() -> processItem(itemId));
+            executeUnderTransaction(() -> processItem(itemId, currentCount, totalCount));
         } catch (Throwable error) {
             executeUnderTransaction(() -> registerProcessingFailure(itemId, error));
         }
@@ -109,8 +112,8 @@ public class QueueConsumer {
         });
     }
 
-    public void processItem(Object itemId) {
-        Optional<QueueingState> queueingStateOptional = this.queueConsumerModule.processItem(itemId);
+    public void processItem(Object itemId, int currentCount, int totalCount) {
+        Optional<QueueingState> queueingStateOptional = this.queueConsumerModule.processItem(itemId, currentCount, totalCount);
         if (queueingStateOptional.isPresent()) {
             queueingStateOptional.get().registerAttemptSuccess(LocalDateTime.now());
         } else {
