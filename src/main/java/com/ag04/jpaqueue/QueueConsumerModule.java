@@ -1,12 +1,12 @@
 package com.ag04.jpaqueue;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
 public interface QueueConsumerModule<ID> {
 
-    List<ID> findItemIdsWhereQueueingNextAttemptTimeIsBefore(LocalDateTime time, int limit);
+    List<ID> findItemIdsWhereQueueingNextAttemptTimeIsBefore(ZonedDateTime time, int limit);
 
     Optional<QueueingState> getQueueingStateForItem(ID itemId);
 

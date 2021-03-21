@@ -1,6 +1,6 @@
 package com.ag04.jpaqueue.retry;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 public class LimitedRetryPolicy implements RetryPolicy {
@@ -16,7 +16,7 @@ public class LimitedRetryPolicy implements RetryPolicy {
     }
 
     @Override
-    public Optional<LocalDateTime> calculateNextAttemptTime(LocalDateTime lastAttemptTime, int attemptCount) {
+    public Optional<ZonedDateTime> calculateNextAttemptTime(ZonedDateTime lastAttemptTime, int attemptCount) {
         if (attemptCount < this.attemptCountLimit) {
             return this.delegate.calculateNextAttemptTime(lastAttemptTime, attemptCount);
         } else {

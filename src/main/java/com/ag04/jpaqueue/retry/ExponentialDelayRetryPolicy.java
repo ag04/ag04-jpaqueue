@@ -1,6 +1,6 @@
 package com.ag04.jpaqueue.retry;
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -17,7 +17,7 @@ public class ExponentialDelayRetryPolicy implements RetryPolicy {
     }
 
     @Override
-    public Optional<LocalDateTime> calculateNextAttemptTime(LocalDateTime lastAttemptTime, int attemptCount) {
+    public Optional<ZonedDateTime> calculateNextAttemptTime(ZonedDateTime lastAttemptTime, int attemptCount) {
         long initialDelayMillis = initialDelay.toMillis();
         long delayMillis = (long) (initialDelayMillis * Math.pow(delayIncreaseFactor, (double) (attemptCount - 1)));
         Duration delay = Duration.ofMillis(delayMillis);

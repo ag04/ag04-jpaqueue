@@ -21,12 +21,15 @@ Make sure that file gradle.properties in the folder ${USER_HOME}/.gradle/ contai
 * github_username
 * github_password : personal github token to be used to install/update packages
 
-1) Commit everything
+1) Commit and push everything
 2) `./gradlew release`
 
 And simply follow the instructions on the console
 
 ## Changelog
+### v. 1.1.0 Java 11, ZonedDateTime
+    - Changed LocalDateTime to ZonedDateTime in QueueingState.java and the rest of the library
+    - Increased Java build version to 11
 ### v. 1.0.1 - Configured build to publish to GitHub packages
 ### v. 1.0.0 - Base implementation
 

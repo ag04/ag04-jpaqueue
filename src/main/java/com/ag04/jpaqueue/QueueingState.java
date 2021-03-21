@@ -1,12 +1,13 @@
 package com.ag04.jpaqueue;
 
+import java.time.ZonedDateTime;
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.StringJoiner;
 
 @Embeddable
 public class QueueingState {
@@ -17,13 +18,13 @@ public class QueueingState {
     private QueueStatus status;
 
     @Column(name = "next_attempt_time")
-    private LocalDateTime nextAttemptTime;
+    private ZonedDateTime nextAttemptTime;
 
     @Column(name = "attempt_count")
     private Integer attemptCount;
 
     @Column(name = "last_attempt_time")
-    private LocalDateTime lastAttemptTime;
+    private ZonedDateTime lastAttemptTime;
 
     @Column(name = "last_attempt_error_message", length = 500)
     private String lastAttemptErrorMessage;
@@ -33,11 +34,11 @@ public class QueueingState {
         this.attemptCount = 0;
     }
 
-    public void scheduleNextAttempt(LocalDateTime nextAttemptTime) {
+    public void scheduleNextAttempt(ZonedDateTime nextAttemptTime) {
         this.nextAttemptTime = Objects.requireNonNull(nextAttemptTime);
     }
 
-    void registerAttemptSuccess(LocalDateTime time) {
+    void registerAttemptSuccess(ZonedDateTime time) {
         this.attemptCount++;
         this.nextAttemptTime = null;
         this.lastAttemptTime = Objects.requireNonNull(time);
@@ -46,7 +47,7 @@ public class QueueingState {
         this.lastAttemptErrorMessage = null; // clear error if exists
     }
 
-    void registerAttemptFailure(LocalDateTime time, Throwable error) {
+    void registerAttemptFailure(ZonedDateTime time, Throwable error) {
         this.attemptCount++;
         this.nextAttemptTime = null;
         this.lastAttemptTime = Objects.requireNonNull(time);
@@ -116,11 +117,11 @@ public class QueueingState {
         this.status = status;
     }
 
-    public LocalDateTime getNextAttemptTime() {
+    public ZonedDateTime getNextAttemptTime() {
         return nextAttemptTime;
     }
 
-    public void setNextAttemptTime(LocalDateTime nextAttemptTime) {
+    public void setNextAttemptTime(ZonedDateTime nextAttemptTime) {
         this.nextAttemptTime = nextAttemptTime;
     }
 
@@ -132,11 +133,11 @@ public class QueueingState {
         this.attemptCount = attemptCount;
     }
 
-    public LocalDateTime getLastAttemptTime() {
+    public ZonedDateTime getLastAttemptTime() {
         return lastAttemptTime;
     }
 
-    public void setLastAttemptTime(LocalDateTime lastAttemptTime) {
+    public void setLastAttemptTime(ZonedDateTime lastAttemptTime) {
         this.lastAttemptTime = lastAttemptTime;
     }
 

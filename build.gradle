@@ -8,7 +8,7 @@ plugins {
 apply plugin: 'idea'
 
 group = 'com.ag04.jpaqueue'
-sourceCompatibility = '1.8'
+sourceCompatibility = '11'
 
 gradle.projectsEvaluated {
     tasks.withType(JavaCompile) {

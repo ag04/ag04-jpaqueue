@@ -1,16 +1,6 @@
 package com.ag04.jpaqueue;
 
-import com.ag04.jpaqueue.retry.RetryPolicy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.TransactionCallbackWithoutResult;
-import org.springframework.transaction.support.TransactionTemplate;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -18,6 +8,18 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+import com.ag04.jpaqueue.retry.RetryPolicy;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
 public class QueueConsumer {
     private final Logger logger = LoggerFactory.getLogger(QueueConsumer.class);
@@ -78,7 +80,7 @@ public class QueueConsumer {
 
     public void processQueuedItems() {
         try {
-            LocalDateTime now = LocalDateTime.now();
+            ZonedDateTime now = ZonedDateTime.now();
             List<?> itemIds = this.queueConsumerModule.findItemIdsWhereQueueingNextAttemptTimeIsBefore(now, itemsPollSize);
 
             if (!itemIds.isEmpty()) {
@@ -112,7 +114,7 @@ public class QueueConsumer {
     public void processItem(Object itemId) {
         Optional<QueueingState> queueingStateOptional = this.queueConsumerModule.processItem(itemId);
         if (queueingStateOptional.isPresent()) {
-            queueingStateOptional.get().registerAttemptSuccess(LocalDateTime.now());
+            queueingStateOptional.get().registerAttemptSuccess(ZonedDateTime.now());
         } else {
             logger.warn("No queued item found under ID {} to process it", itemId);
         }
@@ -124,11 +126,11 @@ public class QueueConsumer {
         Optional<QueueingState> queueingStateOptional = this.queueConsumerModule.getQueueingStateForItem(itemId);
         if (queueingStateOptional.isPresent()) {
             QueueingState queueingState = queueingStateOptional.get();
-            queueingState.registerAttemptFailure(LocalDateTime.now(), error);
+            queueingState.registerAttemptFailure(ZonedDateTime.now(), error);
 
-            Optional<LocalDateTime> retryAttemptTimeOptional = retryPolicy.calculateNextAttemptTime(queueingState.getLastAttemptTime(), queueingState.getAttemptCount());
+            Optional<ZonedDateTime> retryAttemptTimeOptional = retryPolicy.calculateNextAttemptTime(queueingState.getLastAttemptTime(), queueingState.getAttemptCount());
             if (retryAttemptTimeOptional.isPresent()) {
-                LocalDateTime nextAttemptTime = retryAttemptTimeOptional.get();
+                ZonedDateTime nextAttemptTime = retryAttemptTimeOptional.get();
                 logger.info("Retry for item by ID {} scheduled for time: {}", itemId, nextAttemptTime);
                 queueingState.scheduleNextAttempt(nextAttemptTime);
             } else {
