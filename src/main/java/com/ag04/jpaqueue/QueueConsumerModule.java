@@ -10,5 +10,5 @@ public interface QueueConsumerModule<ID> {
 
     Optional<QueueingState> getQueueingStateForItem(ID itemId);
 
-    Optional<QueueingState> processItem(ID itemId);
+    Optional<QueueingState> processItem(ID itemId, int count, int size);
 }

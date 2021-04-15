@@ -27,6 +27,8 @@ Make sure that file gradle.properties in the folder ${USER_HOME}/.gradle/ contai
 And simply follow the instructions on the console
 
 ## Changelog
+### v. 1.2.0. Changed QueueConsumerModul method processItem() signature to include count and size params
+ - Optional<QueueingState> processItem(ID itemId, int count, int size);
 ### v. 1.1.0 Java 11, ZonedDateTime
     - Changed LocalDateTime to ZonedDateTime in QueueingState.java and the rest of the library
     - Increased Java build version to 11
